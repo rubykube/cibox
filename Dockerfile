@@ -10,8 +10,9 @@ WORKDIR $APP_HOME
 
 # Install dependencies defined in Gemfile.
 COPY Gemfile Gemfile.lock $APP_HOME/
-RUN mkdir -p /opt/vendor/bundle \
- && bundle install --path /opt/vendor/bundle
+RUN bundle install --binstubs
+
+ENV PATH=$APP_HOME/bin:$PATH
 
 # Copy application sources.
 COPY . $APP_HOME

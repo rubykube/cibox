@@ -1,14 +1,12 @@
 #!/bin/sh
 
-SEMVER=$(cat VERSION)
+git config --global user.name $BOT_NAME
+git config --global user.email $BOT_EMAIL
 
-git config --global user.name "Kite Bot"
-git config --global user.email "kite-bot@heliostech.fr"
-
-git remote add authenticated-origin https://kite-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
+git remote add authenticated-origin https://$BOT_USERNAME:$GITHUB_API_KEY@github.com/${DRONE_REPO}
 git fetch authenticated-origin
 
-bump patch --commit-message "Release $SEMVER [ci skip]"
+bump patch --commit-message "release bump [ci skip]"
 
 git tag $(cat VERSION)
 git push authenticated-origin master
