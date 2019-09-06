@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require_relative '../bumper'
+require_relative '../robox/bumper'
 
 namespace :release do
   desc 'Tag and push (Drone CI)'

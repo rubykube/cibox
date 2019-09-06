@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require 'bumper'
+require 'robox/bumper'
 require 'ostruct'
 
 describe Bumper do
@@ -92,33 +92,34 @@ describe Bumper do
 
   context 'push' do
     let(:bumper) { Bumper.new(params) }
-    let(:remote) { Git::Remote.new }
+    let(:origin) { OpenStruct.new(name: 'origin') }
+    let(:authenticated_origin) { OpenStruct.new(name: 'authenticated-origin') }
 
     it 'should create remote if not exist' do
-      expect(bumper.git).to receive(:remotes).and_return([OpenStruct.new(name: 'origin')])
+      expect(bumper.git).to receive(:remotes).and_return([origin])
       expect(bumper.git).to receive(:add_remote)
-      expect(bumper.git).to receive(:remote).and_return('fake')
-      expect(bumper.git).to receive(:push).with('fake', 'master', true)
+      expect(bumper.git).to receive(:remote).and_return(origin)
+      expect(bumper.git).to receive(:push).with(origin, 'master', true)
       bumper.push
     end
 
     it 'should not create remote if exist' do
-      remote = OpenStruct.new(name: 'authenticated-origin')
-      expect(bumper.git).to receive(:remotes).and_return([remote])
-      expect(bumper.git).to receive(:remote).and_return(remote)
-      expect(bumper.git).to receive(:push).with(remote, 'master', true)
+      expect(bumper.git).to receive(:remotes).and_return([authenticated_origin])
+      expect(bumper.git).to receive(:remote).and_return(authenticated_origin)
+      expect(bumper.git).to receive(:push).with(authenticated_origin, 'master', true)
       bumper.push
     end
   end
 
-  # context 'save' do
-  #   let(:bumper) { Bumper.new(params) }
+  context 'save' do
+    let(:bumper) { Bumper.new(params) }
 
-  #   it 'should save version into .tags file' do
-  #     expect(Bump::Bump).to receive(:current).and_return('1.2.3')
-  #     expect(File).to receive(:open).with('.tags', 'w')
-  #     expect_any_instance_of(File).to receive(:write).with('1.2.3')
-  #     bumper.save
-  #   end
-  # end
+    it 'should save version into .tags file' do
+      buffer = StringIO.new()
+      expect(bumper).to receive(:version).and_return('1.2.3')
+      allow(File).to receive(:open).and_yield(buffer)
+      bumper.save
+      expect(buffer.string).to eq('1.2.3')
+    end
+  end
 end
