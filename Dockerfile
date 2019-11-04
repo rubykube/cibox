@@ -1,10 +1,9 @@
-FROM ruby:2.6.3
+FROM ruby:2.6.4
 
 ENV APP_HOME=/home/build
 
 # Install tools for debug and development
-RUN apt-get update && apt-get install -yy \
-        git curl wget
+RUN apt-get update && apt-get install -y git curl wget
 
 WORKDIR $APP_HOME
 
