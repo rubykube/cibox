@@ -9,6 +9,7 @@ GEM
       faraday (>= 0.7.4, < 1.0)
     git (1.5.0)
     multipart-post (2.0.0)
+    rake (12.3.3)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -31,10 +32,11 @@ DEPENDENCIES
   faraday (~> 0.12)
   faraday_middleware (~> 0.12.2)
   git (~> 1.5)
+  rake (~> 12.3.3)
   rspec (~> 3.8)
 
 RUBY VERSION
-   ruby 2.6.4p104
+   ruby 2.6.5p114
 
 BUNDLED WITH
    1.17.3
